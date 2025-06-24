@@ -1,0 +1,26 @@
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	username TEXT UNIQUE NOT NULL,
+	email TEXT UNIQUE NOT NULL,
+	password TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE transactions (
+	id SERIALL PRIMARY KEY,
+	user_id INTEGER REFERENCES user(id) ON DELETE CASCADE,
+	type TEXT CKECK (type IN ('income', 'expense')) NOT NULL,
+	category TEXT NOT NULL,
+	amount NUMERIC(10,2) NOT NULL CHECK (amount > 0),
+	description TEXT,
+	date DATE NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE categories (
+  	id SERIAL PRIMARY KEY,
+  	name TEXT NOT NULL,
+  	type TEXT CHECK (type IN ('income', 'expense')) NOT NULL
+);
