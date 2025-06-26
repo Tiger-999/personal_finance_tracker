@@ -3,6 +3,7 @@ import pool from "../db/index.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import authenticateToken from "../middleware/authMiddleware.js";
 
 const authRouter = express.Router();
 
@@ -146,6 +147,14 @@ authRouter.post("/changepassword", authenticateToken, async (req, res) => {
         console.error("Unable to change password.");
         return res.status(500).json({error: "Internal server error."});
     }
+});
+
+authRouter.post("/logout", (req, res) => {
+    res.json({message: "Logout successfully."});
+});
+
+authRouter.get("/token/check", authenticateToken, (req, res) => {
+    res.json({message: "Token is valid", user: req.user});
 });
 
 export default authRouter;

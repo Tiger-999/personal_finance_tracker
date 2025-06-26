@@ -8,11 +8,7 @@ router.get("/", authenticateToken, async (req, res) => {
 
     try {
         const userId = req.user.id;
-        const result = await pool.query("SELECT * FROM transactions WHERE user_id = $1", [userId]);
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({error: "No transaction data found."});
-        }
+        const result = await pool.query("SELECT * FROM transactions WHERE user_id = $1 ORDER BY id DESC", [userId]);
 
         return res.status(200).json(result.rows);
 
@@ -29,7 +25,7 @@ router.post("/", authenticateToken, async (req, res) => {
         const {type, category, amount, description, date} = req.body;
 
         const result = await pool.query(`INSERT INTO transactions (user_id, type, category, amount, description, date)
-                                        VALUES ($1, $2, $3, $4, $5) RETURNING *`, 
+                                        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`, 
                                     [userId, type, category, amount, description, date]);
 
         if (result.rows.length === 0) {
