@@ -59,9 +59,7 @@ function Login(props) {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Login
-            </button>
+            <button type="submit" className="btn btn-primary w-100">Login</button>
           </form>
 
         <div className="mt-5 text-center">
@@ -69,7 +67,7 @@ function Login(props) {
         </div>
 
         <div className="mt-3 text-center">
-            <Link to="/forgotpassword">Forgotten password?</Link>
+            <Link to="/forgot-password">Forgotten password?</Link>
         </div>
 
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TransactionForm from "../components/TransactionForm";
+import Navbar from "../components/Navbar.jsx";
 
 function Dashboard({ user, transactions, onAddTransaction, onDeleteTransaction, onUpdateAllTransaction, onLogout }) {
   const [editingData, setEditingData] = useState({
@@ -61,17 +62,19 @@ function Dashboard({ user, transactions, onAddTransaction, onDeleteTransaction, 
   function handleCancel() {
     setEditingId(null);
   }
-  
+
 
   return (
     <div className="container mt-4">
+    
       <div className="d-flex justify-content-between align-items-center mb-4">
+
         <h2>
           Welcome <span className="text-primary">{user}</span>!
         </h2>
-        <button onClick={onLogout} className="btn btn-danger">
+        {/* <button onClick={onLogout} className="btn btn-danger">
           Logout
-        </button>
+        </button> */}
       </div>
 
       <TransactionForm onAddTransaction={onAddTransaction} />

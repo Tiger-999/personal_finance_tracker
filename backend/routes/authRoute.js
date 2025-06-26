@@ -77,7 +77,7 @@ authRouter.post("/login", async (req, res) => {
     }
 });
 
-authRouter.post("/forgotpassword", async (req, res) => {
+authRouter.post("/forgot-password", async (req, res) => {
     try {
         const {username, email} = req.body;
 
@@ -100,7 +100,7 @@ authRouter.post("/forgotpassword", async (req, res) => {
             return res.status(400).json({error: "Unable to set temporary password."});
         }
 
-        return res.status(200).json({message: "Temporary password has been set."});
+        return res.status(200).json({message: "Temporary password has been set.", temporaryPassword});
 
     } catch (err) {
         console.error("Unable to send temporary password.", err);
@@ -108,7 +108,7 @@ authRouter.post("/forgotpassword", async (req, res) => {
     }
 });
 
-authRouter.post("/changepassword", authenticateToken, async (req, res) => {
+authRouter.post("/change-password", authenticateToken, async (req, res) => {
     try {
         const {id, username, email} = req.user;
         const {currentPassword, newPassword, reNewPassword} = req.body;

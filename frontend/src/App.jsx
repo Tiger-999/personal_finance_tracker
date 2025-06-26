@@ -4,9 +4,13 @@ import axios from "axios";
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import axiosInstance from "./api.js";
 import TransactionForm from "./components/TransactionForm.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Chart from "./components/Chart.jsx";
 
 function App() {
 
@@ -155,11 +159,42 @@ function App() {
     }
   }
 
+  async function changePassword(userData) {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${AUTH_API}/change-password`, userData, {
+        headers: {Authorization: `Bearer ${token}`}
+      });
+      localStorage.clear();
+      setUser("");
+      setIsLogin(false);
+      setTransactions([]);
+      setLoading(true);
+
+      alert("Password changed successfully. Please login again.");
+
+    } catch (err) {
+      console.error("Failed to change your password.", err);
+    }
+  }
+
+  async function forgotPassword(userData) {
+    try {
+      const response = await axios.post(`${AUTH_API}/forgot-password`, userData);
+      alert(`Your temporary password ${response.data.temporaryPassword} has been set.`);
+
+    } catch (err) {
+      console.error("Failed to generate your temporary password.", err);
+    }
+  }
+
   if (loading)  return <div>Loading ...</div>;
 
   return (
 
     <BrowserRouter>
+
+    <Navbar isLogin={isLogin} user={user} onLogout={logoutUser} />
     
     <Routes>
 
@@ -176,6 +211,9 @@ function App() {
       <Route path='/login' element={!isLogin? (<Login onLogin={loginUser} />) : (<Navigate to="/dashboard" />)} />
       <Route path='/add-transaction-form' element={<TransactionForm onAddTransaction={addTransaction} />} />
       <Route path='/' element={isLogin? (<Navigate to="/dashboard" />) : (<Navigate to="/login" />)} />
+      <Route path='/chart' element={<Chart transactions={transactions} />} />
+      <Route path='/change-password' element={<ChangePassword onChangePassword={changePassword} />} />
+      <Route path='/forgot-password' element={<ForgotPassword onForgotPassword={forgotPassword} />} />
 
     </Routes>
     

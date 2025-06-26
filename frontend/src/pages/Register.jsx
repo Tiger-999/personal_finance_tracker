@@ -88,13 +88,11 @@ function Register(props) {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Register
-            </button>
+            <button type="submit" className="btn btn-primary w-100">Register</button>
 
           </form>
 
-            <div className="mt-3 text-center">
+            <div className="mt-5 text-center">
                 <Link to="/login">Already have an account? Sign In</Link>
             </div>
 
